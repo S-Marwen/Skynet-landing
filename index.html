@@ -35,7 +35,7 @@
             padding: 50px 20px;
             overflow-x: hidden; /* Prevent horizontal scroll */
             /* Subtle background pattern for more detail */
-            background-image: 
+            background-image:
                 linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
             background-size: 20px 20px;
@@ -79,6 +79,8 @@
             max-width: 1200px;
             width: 100%;
             padding: 20px;
+            /* C'est ici que le changement est effectué pour le centrage */
+            justify-content: center;
         }
 
         /* Individual service modules */
@@ -193,7 +195,7 @@
             }
             .service-module {
                 width: 90%; /* Adjust width for better fit on small screens */
-                margin: 0 auto;
+                margin: 0 auto; /* Keep modules centered when stacked */
             }
         }
 
