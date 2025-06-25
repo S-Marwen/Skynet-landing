@@ -1,118 +1,242 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>SKYNET</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    :root {
-      --bg-color: #0d1117;
-      --card-color: #161b22;
-      --text-color: #ffffff;
-      --accent-color: #00ffff;
-      --private-color: #ff6666;
-      --public-color: #66ff66;
-    }
+    <meta charset="UTF-8">
+    <title>SKYNET - System Online</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Skynet Core Variables */
+        :root {
+            --skynet-dark: #080808;
+            --skynet-mid: #1a1a1a;
+            --skynet-light: #2c2c2c;
+            --skynet-accent-blue: #00ffff; /* Cyan glow */
+            --skynet-accent-red: #ff0000; /* Critical alerts */
+            --skynet-text-light: #e0e0e0;
+            --skynet-text-dark: #888888;
+            --skynet-shadow-blue: 0 0 15px rgba(0, 255, 255, 0.6);
+            --skynet-shadow-red: 0 0 15px rgba(255, 0, 0, 0.6);
+            --skynet-border-thin: 1px solid rgba(0, 255, 255, 0.2);
+            --skynet-border-thick: 2px solid var(--skynet-accent-blue);
+        }
 
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
+        /* Base Body and Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--skynet-dark);
+            color: var(--skynet-text-light);
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 50px 20px;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            /* Subtle background pattern for more detail */
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
 
-    h1 {
-      color: var(--accent-color);
-      font-size: 2.5em;
-      margin-bottom: 40px;
-      text-shadow: 0 0 10px #00ffff80;
-    }
+        /* Global animations */
+        @keyframes glow-pulse {
+            0% { box-shadow: var(--skynet-shadow-blue); }
+            50% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.9); }
+            100% { box-shadow: var(--skynet-shadow-blue); }
+        }
 
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      max-width: 1000px;
-      width: 100%;
-    }
+        @keyframes text-flicker {
+            0%, 100% { opacity: 1; }
+            5% { opacity: 0.8; }
+            10% { opacity: 1; }
+            15% { opacity: 0.9; }
+            20% { opacity: 1; }
+            25% { opacity: 0.7; }
+            30% { opacity: 1; }
+        }
 
-    .service {
-      background-color: var(--card-color);
-      border: 1px solid var(--accent-color);
-      border-radius: 15px;
-      padding: 30px 20px;
-      width: 250px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+        /* Main Heading */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5em;
+            color: var(--skynet-accent-blue);
+            margin-bottom: 60px;
+            text-shadow: var(--skynet-shadow-blue);
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: text-flicker 4s infinite alternate;
+            user-select: none; /* Prevent selection for a more system-like feel */
+        }
 
-    .service:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 20px #00ffff33;
-    }
+        /* Container for service modules */
+        .container {
+            display: grid; /* Use grid for more flexible layout */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+        }
 
-    .service a {
-      display: block;
-      font-size: 1.4em;
-      font-weight: bold;
-      color: var(--accent-color);
-      text-decoration: none;
-      margin-bottom: 10px;
-      transition: color 0.3s ease;
-    }
+        /* Individual service modules */
+        .service-module {
+            background-color: var(--skynet-mid);
+            border: var(--skynet-border-thin);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); /* Initial subtle glow */
+        }
 
-    .service a:hover {
-      color: #ffffff;
-    }
+        .service-module::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent 0deg, transparent 200deg, rgba(0, 255, 255, 0.3) 250deg, rgba(0, 255, 255, 0.3) 300deg, transparent 360deg);
+            z-index: 0;
+            animation: rotate-border 6s linear infinite;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
 
-    .private {
-      color: var(--private-color);
-      font-style: italic;
-    }
+        .service-module:hover::before {
+            opacity: 1;
+        }
 
-    .public {
-      color: var(--public-color);
-      font-style: italic;
-    }
+        @keyframes rotate-border {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2em;
-      }
+        .service-module:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--skynet-accent-blue);
+            box-shadow: var(--skynet-shadow-blue);
+            animation: glow-pulse 2s infinite ease-in-out;
+        }
 
-      .service {
-        width: 90%;
-      }
-    }
-  </style>
+        /* Links inside service modules */
+        .service-module a {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--skynet-accent-blue);
+            text-decoration: none;
+            margin-bottom: 15px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+            z-index: 1; /* Ensure text is above pseudo-element */
+        }
+
+        .service-module a:hover {
+            color: var(--skynet-text-light);
+            text-shadow: var(--skynet-shadow-blue);
+        }
+
+        /* Access status text */
+        .status-text {
+            font-size: 1.1em;
+            font-style: italic;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .private-access {
+            color: var(--skynet-accent-red);
+            text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+        }
+
+        .public-access {
+            color: #00ff00; /* Green for public access */
+            text-shadow: 0 0 8px rgba(0, 255, 0, 0.4);
+        }
+
+        /* Footer - Skynet signature */
+        .skynet-footer {
+            margin-top: 80px;
+            font-size: 0.9em;
+            color: var(--skynet-text-dark);
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(0, 255, 255, 0.1);
+        }
+
+        .skynet-footer span {
+            color: var(--skynet-accent-blue);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8em;
+                margin-bottom: 40px;
+                letter-spacing: 3px;
+            }
+            .container {
+                grid-template-columns: 1fr; /* Stack modules on small screens */
+                padding: 10px;
+            }
+            .service-module {
+                width: 90%; /* Adjust width for better fit on small screens */
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+                letter-spacing: 2px;
+            }
+            .service-module a {
+                font-size: 1.5em;
+            }
+            .status-text {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Bienvenue Skynet.tn</h1>
-  <div class="container">
-    <div class="service">
-      <a href="https://shop.skynet.tn">🛒 Shop</a>
-      <p class="public">Accès public</p>
+    <h1>SYSTEM: SKYNET.TN - ONLINE</h1>
+    <div class="container">
+        <div class="service-module">
+            <a href="https://shop.skynet.tn">🛒 TERMINAL SHOP</a>
+            <p class="status-text public-access">[ ACCESS: PUBLIC ]</p>
+        </div>
+        <div class="service-module">
+            <a href="https://home.skynet.tn">🏠 NEURAL NETWORK: IoT</a>
+            <p class="status-text private-access">[ ACCESS: RESTRICTED ]</p>
+        </div>
+        <div class="service-module">
+            <a href="https://dns.skynet.tn">🔧 DOMAIN RESOLUTION SERVICE</a>
+            <p class="status-text private-access">[ ACCESS: RESTRICTED ]</p>
+        </div>
+        <div class="service-module">
+            <a href="https://sip.skynet.tn">📞 COMMS RELAY: VOIP</a>
+            <p class="status-text private-access">[ ACCESS: RESTRICTED ]</p>
+        </div>
+        </div>
+    <div class="skynet-footer">
+        ---<br>
+        [ SYSTEM LOG: INITIATED 2025.06.25 ]<br>
+        [ STATUS: OPERATIONAL ]<br>
+        [ ALL UNITS REPORTING ]<br>
+        &copy; <span>SKYNET</span> Global Network. Do Not Attempt To Disable.
     </div>
-    <div class="service">
-      <a href="https://home.skynet.tn">🏠 Home IoT</a>
-      <p class="private">Accès privé</p>
-    </div>
-    <div class="service">
-      <a href="https://dns.skynet.tn">🔧 DNS</a>
-      <p class="private">Accès privé</p>
-    </div>
-    <div class="service">
-      <a href="https://sip.skynet.tn">📞 VoIP</a>
-      <p class="private">Accès privé</p>
-    </div>
-  </div>
 </body>
 </html>
-
