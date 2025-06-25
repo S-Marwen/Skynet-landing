@@ -73,14 +73,23 @@
 
         /* Container for service modules */
         .container {
-            display: grid; /* Use grid for more flexible layout */
+            display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 40px;
             max-width: 1200px;
             width: 100%;
             padding: 20px;
-            /* C'est ici que le changement est effectué pour le centrage */
-            justify-content: center;
+            /* Changements pour le centrage des éléments incomplets */
+            /* Utilisez place-items pour centrer les éléments dans leur cellule de grille */
+            /* ou alignez le contenu de la grille si l'espace est disponible */
+            justify-content: center; /* Centre les pistes de grille entières si l'espace le permet */
+            align-content: start; /* Aligne les pistes de grille au début si l'espace est disponible */
+
+            /* Pour que les éléments eux-mêmes ne s'étirent pas à 100% s'ils sont seuls */
+            /* On peut limiter leur max-width ou les gérer différemment. */
+            /* En grid avec auto-fit et 1fr, les éléments s'étirent par design. */
+            /* Si vous voulez qu'ils aient une largeur fixe quand ils sont seuls,
+               il faut ruser ou changer le minmax. */
         }
 
         /* Individual service modules */
@@ -94,7 +103,18 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.2); /* Initial subtle glow */
+            /* Ajoutez ceci pour centrer l'élément s'il est le seul dans une colonne */
+            /* Cela ne fonctionnera que si le grid-template-columns permet des largeurs non-1fr */
+            /* et que l'élément est plus petit que la cellule */
+            /* Pour un centrage parfait sans étirement, il faudrait un media query spécifique
+               quand le nombre d'éléments fait qu'il y en a un seul sur la dernière ligne. */
+            /* Une solution plus directe pour forcer un élément unique à ne pas s'étirer et à se centrer
+               est d'ajouter une largeur maximale */
+            max-width: 320px; /* Limite la largeur du module, même s'il a plus d'espace */
+            margin-left: auto; /* Centre l'élément dans la cellule si elle est plus grande */
+            margin-right: auto;
         }
+
 
         .service-module::before {
             content: '';
@@ -192,10 +212,12 @@
             .container {
                 grid-template-columns: 1fr; /* Stack modules on small screens */
                 padding: 10px;
+                justify-content: center; /* Centre les modules quand ils sont empilés */
             }
             .service-module {
-                width: 90%; /* Adjust width for better fit on small screens */
-                margin: 0 auto; /* Keep modules centered when stacked */
+                width: 90%; /* Ajuste la largeur pour mieux s'adapter aux petits écrans */
+                margin: 0 auto; /* Centre les modules quand ils sont empilés */
+                max-width: unset; /* Supprime le max-width pour qu'ils puissent s'étirer à 90% */
             }
         }
 
