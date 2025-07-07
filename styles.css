@@ -1,0 +1,146 @@
+/* styles.css */
+
+/* Reset some default styles */
+body, h1, h2, h3, p, ul, li, a, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    line-height: 1.6;
+}
+
+/* Header */
+header {
+    background: #1a1a1a;
+    padding: 32px 0 24px 0;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+    color: #e50914;
+}
+
+header nav {
+    margin-top: 16px;
+}
+
+header nav a {
+    color: #f5f5f5;
+    text-decoration: none;
+    margin: 0 18px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+header nav a:hover {
+    color: #e50914;
+}
+
+/* Hero Section */
+.hero {
+    padding: 64px 0;
+    text-align: center;
+    background: linear-gradient(135deg, #1a1a1a 60%, #22223b 100%);
+}
+
+.hero h2 {
+    font-size: 2rem;
+    margin-bottom: 18px;
+    color: #e50914;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 32px;
+    color: #f5f5f5;
+}
+
+.hero .cta-btn {
+    background: #e50914;
+    color: #fff;
+    border: none;
+    padding: 14px 36px;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.hero .cta-btn:hover {
+    background: #b0060f;
+}
+
+/* Features Section */
+.features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    padding: 48px 0;
+    background: #181818;
+}
+
+.feature {
+    background: #232323;
+    border-radius: 8px;
+    padding: 32px 24px;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+}
+
+.feature:hover {
+    transform: translateY(-8px) scale(1.03);
+}
+
+.feature h3 {
+    color: #e50914;
+    margin-bottom: 12px;
+    font-size: 1.3rem;
+}
+
+.feature p {
+    color: #f5f5f5;
+    font-size: 1rem;
+}
+
+/* Footer */
+footer {
+    background: #1a1a1a;
+    color: #aaa;
+    text-align: center;
+    padding: 24px 0;
+    font-size: 0.95rem;
+    margin-top: 48px;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .features {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.6rem;
+    }
+    .hero h2 {
+        font-size: 1.3rem;
+    }
+    .feature {
+        padding: 20px 10px;
+        max-width: 95vw;
+    }
+}
